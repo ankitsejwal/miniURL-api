@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/ankitsejwal/urlshortener/issues"
   },
-  "homepage": "https://github.com/ankitsejwal/urlshortener#readme"
+  "homepage": "https://github.com/ankitsejwal/urlshortener#readme",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0"
+  }
 }
