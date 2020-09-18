@@ -12,7 +12,7 @@
   <body>
     <div class="container">
       <h1>URL Shortener</h1>
-      <form action="" method="post" class="my-4 form-inline">
+      <form action="/shorturls" method="post" class="my-4 form-inline">
         <label class="sr-only">Enter URL</label>
         <input
           type="url"
@@ -33,11 +33,14 @@
           </tr>
         </thead>
         <tbody>
+          <% for (const url of shortUrls) { %>
           <tr>
-            <td><a href="http://sejw.al/tbody">http://sejw.al/tbody</a></td>
-            <td><a href="sdfdy">sdfdy</a></td>
-            <td>10</td>
+            <td><a href="<%= url.full%>"><%= url.full %></a></td>
+            <td><a href="<%= url.short %>"><%= url.short %></a></td>
+            <td><%= url.click %></td>
           </tr>
+
+          <% } %>
         </tbody>
       </table>
     </div>
