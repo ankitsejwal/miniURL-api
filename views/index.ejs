@@ -36,7 +36,11 @@
           <% for (const url of shortUrls) { %>
           <tr>
             <td><a href="<%= url.full%>"><%= url.full %></a></td>
-            <td><a href="<%= url.short %>"><%= url.short %></a></td>
+            <td>
+              <a href="<%= url.short %>" target="_blank"
+                ><span class="domain"></span>/<%= url.short %></a
+              >
+            </td>
             <td><%= url.clicks %></td>
           </tr>
 
@@ -44,5 +48,11 @@
         </tbody>
       </table>
     </div>
+    <script>
+      const urls = document.getElementsByClassName("domain");
+      for (url of urls) {
+        url.innerHTML = window.location.hostname;
+      }
+    </script>
   </body>
 </html>
