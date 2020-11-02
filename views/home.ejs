@@ -1,39 +1,43 @@
-<div class="row justify-content-center">
-  <div class="search col-lg-6 col-md-8 col-sm-10">
-    <form action="/" method="post">
-      <div class="input-group col">
-        <label class="sr-only">Enter URL</label>
-        <input
-          class="form-control form-control-lg"
-          type="url"
-          placeholder="Enter URL to shorten it"
-          name="fullUrl"
-          id="fullUrl"
-          required
-        />
-        <div class="input-group-append">
-          <button type="submit" class="btn btn-lg btn-primary">shorten</button>
+<div>
+  <div id="search" class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <form action="/" method="post">
+        <div class="input-group col">
+          <label class="sr-only">Enter URL</label>
+          <input
+            class="form-control form-control-lg"
+            type="url"
+            placeholder="http://enter/url/to/shorten/it"
+            name="fullUrl"
+            id="fullUrl"
+            required
+          />
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-lg btn-primary">
+              shorten
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
-<div class="row justify-content-center">
-  <div class="col-lg-6 col-md-8 col-sm-10">
-    <div class="alert alert-success message">
-      <p class="full_url d-inline"><%= url.full %></p>
-      <p class="short_url d-inline text-right" id="short_link">
-        <a href="<%= url.short %>" target="_blank"
-          ><span class="domain"></span><%= url.short %></a
+  <div id="link" class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <div class="alert alert-success message">
+        <p class="full_url d-inline"><%= url.full %></p>
+        <p class="short_url d-inline text-right" id="short_link">
+          <a href="<%= url.short %>" target="_blank"
+            ><span class="domain"></span><%= url.short %></a
+          >
+        </p>
+        <button
+          class="btn btn-sm btn-success"
+          id="copy_btn"
+          onclick="copyToClipboard()"
         >
-      </p>
-      <button
-        class="btn btn-sm btn-success"
-        id="copy_btn"
-        onclick="copyToClipboard()"
-      >
-        copy
-      </button>
+          copy
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -1,6 +1,11 @@
-.search {
-  margin: 80px 0;
+#search {
+  margin: 300px 0 50px 0;
 }
 
-.message .short_url {
+#search div {
+  padding: 0;
+}
+
+#link .message .short_url {
+  margin-left: 1rem;
 }
