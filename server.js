@@ -3,10 +3,13 @@ const mongoose = require("mongoose");
 const ShortUrl = require("./models/shortUrl");
 
 mongoose
-  .connect("mongodb://localhost/urlShortener", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    `mongodb+srv://covid:${process.env.MONGO_PASSWORD}@cluster0.xlq5u.mongodb.net/urls?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(console.log("database connected"))
   .catch((err) => console.error(err));
 
