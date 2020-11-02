@@ -13,7 +13,6 @@ router
 
     url = new Url();
 
-    console.log(req.body);
     const { error, value } = url.validateData(req.body);
 
     if (error) return res.send("error...");
