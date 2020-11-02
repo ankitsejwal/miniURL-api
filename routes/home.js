@@ -8,9 +8,19 @@ router
     res.render("home", { urls: urls });
   })
   .post("/", async (req, res) => {
-    await Url.create({
-      full: req.body.fullUrl,
-    });
+    let url = await Url.findOne({ full: req.body.fullUrl });
+    if (url) return res.send("url already exists");
+
+    url = new Url();
+
+    console.log(req.body);
+    const { error, value } = url.validateData(req.body);
+
+    if (error) return res.send("error...");
+
+    url.full = value.fullUrl;
+    await url.save();
+
     res.redirect("/");
   });
 
