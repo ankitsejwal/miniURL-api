@@ -22,12 +22,18 @@
   <div class="col-lg-6 col-md-8 col-sm-10">
     <div class="alert alert-success message">
       <p class="full_url d-inline"><%= url.full %></p>
-      <p class="short_url d-inline text-right">
+      <p class="short_url d-inline text-right" id="short_link">
         <a href="<%= url.short %>" target="_blank"
           ><span class="domain"></span><%= url.short %></a
         >
       </p>
-      <button class="btn btn-sm btn-success">copy</button>
+      <button
+        class="btn btn-sm btn-success"
+        id="copy_btn"
+        onclick="copyToClipboard()"
+      >
+        copy
+      </button>
     </div>
   </div>
 </div>
