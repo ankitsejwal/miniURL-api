@@ -20,7 +20,6 @@ router.get("/:Url", async (req, res) => {
   url.clicks++;
 
   await url.save();
-
   res.redirect(url.full);
 });
 
