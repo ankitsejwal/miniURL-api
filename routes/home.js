@@ -12,7 +12,7 @@ router
   })
   .post("/", async (req, res) => {
     let url = await Url.findOne({ full: req.body.fullUrl });
-    if (url) return res.send("url already exists");
+    if (url) return res.render("home", { url: url });
 
     url = new Url();
 

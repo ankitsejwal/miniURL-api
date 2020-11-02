@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+#link .message {
+  overflow: hidden;
+}
+
 #link .message .short_url {
   margin-left: 1rem;
 }
