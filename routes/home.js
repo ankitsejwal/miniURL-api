@@ -4,8 +4,11 @@ const Url = require("../models/Url");
 
 router
   .get("/", async (req, res) => {
-    const urls = await Url.find();
-    res.render("home", { urls: urls });
+    const url = {
+      full: "https://www.lynda.com/",
+      short: "rew",
+    };
+    res.render("home", { url: url });
   })
   .post("/", async (req, res) => {
     let url = await Url.findOne({ full: req.body.fullUrl });
@@ -20,15 +23,15 @@ router
     url.full = value.fullUrl;
     await url.save();
 
-    res.redirect("/");
+    res.render("home", { url: url });
   });
 
-router.get("/:Url", async (req, res) => {
-  const url = await Url.findOne({ short: req.params.Url });
-  if (url === null) return res.status(404).redirect("/");
+router.get("/:url", async (req, res) => {
+  const url = await Url.findOne({ short: req.params.url });
+  if (!url) return res.status(404).redirect("/");
   url.clicks++;
-
   await url.save();
+
   res.redirect(url.full);
 });
 
