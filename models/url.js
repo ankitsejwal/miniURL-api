@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-const shortId = require("shortid");
+const { nanoid } = require("nanoid");
 const Joi = require("joi");
 
 const urlSchema = mongoose.Schema({
   short: {
     type: String,
-    default: shortId.generate,
+    default: nanoid(3),
   },
   full: {
     type: String,
