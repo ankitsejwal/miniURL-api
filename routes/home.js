@@ -16,7 +16,7 @@ router
 
 router.get("/:Url", async (req, res) => {
   const url = await Url.findOne({ short: req.params.Url });
-  if (url === null) return res.sendStatus(404);
+  if (url === null) return res.status(404).redirect("/");
   url.clicks++;
 
   await url.save();
