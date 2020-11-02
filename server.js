@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const home = require("./routes/home");
+const expressLayouts = require("express-ejs-layouts");
 
 mongoose
   .connect(
@@ -16,6 +17,7 @@ mongoose
 const app = express();
 
 app.set("view engine", "ejs");
+app.use(expressLayouts);
 app.use(express.urlencoded({ extended: false }));
 
 // routes
