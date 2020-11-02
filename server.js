@@ -4,7 +4,7 @@ const home = require("./routes/home");
 
 mongoose
   .connect(
-    `mongodb+srv://covid:${process.env.MONGO_PASSWORD}@cluster0.xlq5u.mongodb.net/urls?retryWrites=true&w=majority`,
+    `mongodb+srv://covid:${process.env.MONGO_PASSWORD}@cluster0.xlq5u.mongodb.net/urlshortener?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -18,6 +18,7 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 
+// routes
 app.use("/", home);
 
 app.listen(process.env.PORT || 5000);

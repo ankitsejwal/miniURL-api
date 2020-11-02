@@ -5,7 +5,7 @@ const Url = require("../models/Url");
 router
   .get("/", async (req, res) => {
     const urls = await Url.find();
-    res.render("index", { urls: urls });
+    res.render("home", { urls: urls });
   })
   .post("/", async (req, res) => {
     await Url.create({
