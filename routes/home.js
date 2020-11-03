@@ -1,6 +1,8 @@
 const express = require("express");
+const { nanoid } = require("nanoid");
 const router = express.Router();
 const Url = require("../models/Url");
+const Collision = require("../models/collision");
 
 router
   .get("/", async (req, res) => {
@@ -21,6 +23,7 @@ router
     if (error) return res.send("error...");
 
     url.full = value.fullUrl;
+    url.short = await generateShorturl();
     await url.save();
 
     res.render("home", { url: url });
@@ -34,5 +37,21 @@ router.get("/:url", async (req, res) => {
 
   res.redirect(url.full);
 });
+
+async function generateShorturl() {
+  let generateUrl = nanoid(1);
+  let url = await Url.findOne({ short: generateUrl });
+  console.log(url);
+
+  if (url) {
+    console.log("collision detected");
+    let collision = await Collision.findById("5fa09b01d8186c6c24aab049");
+    collision.total++;
+    await collision.save();
+    generateShorturl();
+  }
+
+  return generateUrl;
+}
 
 module.exports = router;

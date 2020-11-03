@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
-const { nanoid } = require("nanoid");
 const Joi = require("joi");
 
-const urlSchema = mongoose.Schema({
+const urlSchema = new mongoose.Schema({
   short: {
     type: String,
-    default: nanoid(3),
+    required: true,
   },
   full: {
     type: String,
