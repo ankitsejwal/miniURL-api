@@ -23,7 +23,7 @@ router
     url.short = await generateShorturl();
     await url.save();
 
-    res.render("home", { url: url });
+    res.render("home", { url: url, hidden: "" });
   });
 
 router.get("/:url", async (req, res) => {
