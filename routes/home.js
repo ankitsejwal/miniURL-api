@@ -6,15 +6,12 @@ const Collision = require("../models/collision");
 
 router
   .get("/", async (req, res) => {
-    const url = {
-      full: "https://www.lynda.com/",
-      short: "rew",
-    };
-    res.render("home", { url: url });
+    const url = {};
+    res.render("home", { url: url, hidden: "hidden" });
   })
   .post("/", async (req, res) => {
     let url = await Url.findOne({ full: req.body.fullUrl });
-    if (url) return res.render("home", { url: url });
+    if (url) return res.render("home", { url: url, hidden: "" });
 
     url = new Url();
 
