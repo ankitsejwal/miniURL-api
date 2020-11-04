@@ -4,10 +4,12 @@ const Joi = require("joi");
 const urlSchema = new mongoose.Schema({
   short: {
     type: String,
+    unique: true,
     required: true,
   },
   full: {
     type: String,
+    unique: true,
     required: true,
   },
   clicks: {
