@@ -1,9 +1,10 @@
 const _ = require('lodash');
 const Joi = require('joi');
 Joi.objectid = require('joi-objectid')(Joi);
-let { joiUserSchema } = require('../models/User');
+const { joiUserSchema } = require('../models/User');
 
 module.exports = function (req, res, next) {
+  let joiSchema = joiUserSchema;
   const body = req.body;
   const id = req.params.id;
   const isBodyEmpty = _.isEmpty(body);
