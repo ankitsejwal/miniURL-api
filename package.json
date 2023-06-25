@@ -27,6 +27,6 @@
     "joi-objectid": "^4.0.2",
     "lodash": "^4.17.21",
     "mongoose": "^7.3.1",
-    "nanoid": "^3.1.16"
+    "nanoid": "^3.3.6"
   }
 }
