@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Url } = require('../models/Url');
-const validateSchema = require('../middleware/validateSchema');
+const validate = require('../middleware/validate');
 
 router.get('/', async (req, res) => {
   try {
@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', validateSchema, async (req, res) => {
+router.get('/:id', validate, async (req, res) => {
   try {
     const url = await Url.findById(req.value.id);
     if (!url) return res.status(404).send('url does not exists');
@@ -21,7 +21,7 @@ router.get('/:id', validateSchema, async (req, res) => {
   }
 });
 
-router.post('/', validateSchema, async (req, res) => {
+router.post('/', validate, async (req, res) => {
   try {
     const fullUrl = req.value.fullUrl;
     let url = await Url.findOne({ fullUrl: fullUrl });
@@ -40,7 +40,7 @@ router.post('/', validateSchema, async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validate, async (req, res) => {
   try {
     const url = await Url.findByIdAndUpdate(req.value.id, req.value, { new: true });
     if (!url) return res.status(404).send('url does not exist');
@@ -50,7 +50,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validate, async (req, res) => {
   try {
     const url = await Url.findByIdAndRemove(req.value.id);
     if (!url) return res.status(404).send('url does not exists');

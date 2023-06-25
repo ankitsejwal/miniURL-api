@@ -12,3 +12,5 @@ app.use('/api/urls', urls);
 
 const port = 3000;
 app.listen(port, () => console.log(`Running on port ${port}`));
+
+// make sure validateSchema works with all the routes
