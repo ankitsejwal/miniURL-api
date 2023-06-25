@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', validate, async (req, res) => {
   try {
-    const url = await Url.findById(req.value.id);
+    const url = await Url.findById(req.params.id);
     if (!url) return res.status(404).send('url does not exists');
     res.status(200).send(url);
   } catch (error) {
@@ -21,19 +21,20 @@ router.get('/:id', validate, async (req, res) => {
   }
 });
 
+// fix req.body
 router.post('/', validate, async (req, res) => {
   try {
-    const fullUrl = req.value.fullUrl;
+    const fullUrl = req.body.fullUrl;
     let url = await Url.findOne({ fullUrl: fullUrl });
     // if fullUrl already exists return the saved shortUrl
     if (url) return res.status(200).send(url.shortUrl);
 
-    const { shortUrl, collision } = await Url.createShortUrl(req.value.shortUrlLength);
-    req.value.shortUrl = shortUrl;
-    req.value.collision = collision;
+    const { shortUrl, collision } = await Url.createShortUrl(req.body.shortUrlLength);
+    req.body.shortUrl = shortUrl;
+    req.body.collision = collision;
 
     // add short url to value object
-    url = new Url(req.value);
+    url = new Url(req.body);
     await url.save();
   } catch (error) {
     res.status(400).send(error);
@@ -42,7 +43,7 @@ router.post('/', validate, async (req, res) => {
 
 router.put('/:id', validate, async (req, res) => {
   try {
-    const url = await Url.findByIdAndUpdate(req.value.id, req.value, { new: true });
+    const url = await Url.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!url) return res.status(404).send('url does not exist');
     res.status(200).send(url);
   } catch (error) {
@@ -52,7 +53,7 @@ router.put('/:id', validate, async (req, res) => {
 
 router.delete('/:id', validate, async (req, res) => {
   try {
-    const url = await Url.findByIdAndRemove(req.value.id);
+    const url = await Url.findByIdAndRemove(req.params.id);
     if (!url) return res.status(404).send('url does not exists');
     res.status(200).send(url);
   } catch (error) {

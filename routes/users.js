@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User } = require('../models/User');
+const validate = require('../middleware/validate');
 
 router.get('/', async (req, res) => {
   try {
@@ -10,9 +11,9 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validate, async (req, res) => {
   try {
-    const user = await User.findById(req.value.id);
+    const user = await User.findById(req.params.id);
     if (!user) return res.status(404).send('user does not exist');
     res.status(200).send(user);
   } catch (error) {
@@ -20,20 +21,20 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', validate, async (req, res) => {
   try {
-    let user = await User.findOne({ email: req.value.email });
+    let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('user already exists');
-    user = new User(req.value);
+    user = new User(req.body);
     await user.save();
   } catch (error) {
     res.status(400).send(error);
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validate, async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.value.id, req.value, { new: true });
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!user) return res.status(404).send('user does not exist');
     res.status(200).send(user);
   } catch (error) {
@@ -41,9 +42,9 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validate, async (req, res) => {
   try {
-    const user = await User.findByIdAndRemove(req.value.id);
+    const user = await User.findByIdAndRemove(req.params.id);
     if (!user) return res.status(404).send('user does not exist');
     res.status(200).send(user);
   } catch (error) {
