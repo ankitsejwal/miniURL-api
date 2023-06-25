@@ -10,10 +10,10 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-const joiSchema = {
+const joiUserSchema = {
   name: Joi.string().required().min(3).max(25),
   email: Joi.string().required().min(5).max(0),
   password: Joi.string().required().min(5).max(50),
 };
 
-module.exports = { User, joiSchema };
+module.exports = { User, joiUserSchema };

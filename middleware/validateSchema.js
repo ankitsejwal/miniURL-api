@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Joi = require('joi');
 Joi.objectid = require('joi-objectid')(Joi);
-let { joiSchema } = require('../models/User');
+let { joiUserSchema } = require('../models/User');
 
 module.exports = function (req, res, next) {
   const body = req.body;
