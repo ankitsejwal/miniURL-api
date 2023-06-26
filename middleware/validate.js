@@ -21,7 +21,7 @@ module.exports = function (req, res, next) {
   const { value, error } = schema.validate(body);
   if (error) return res.status(400).send(error.details[0].message);
   // reassign req.body and req.params.id from value
-  req.params.id = req.value.id;
+  req.params.id = value.id;
   req.body = _.omit(value, ['id']);
   next();
 };
