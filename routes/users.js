@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const bcrypt = require('bcrypt');
 const { User, joiUserSchema } = require('../models/User');
 const validateBody = require('../middleware/validateBody');
 const validateID = require('../middleware/validateID');
@@ -26,6 +27,8 @@ router.post('/', validateBody(joiUserSchema), async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('user already exists');
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    req.body.password = hashedPassword;
     user = new User(req.body);
     await user.save();
   } catch (error) {
