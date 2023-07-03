@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const { User } = require('../models/User');
-const validate = require('../middleware/validate');
+const { User, joiUserSchema } = require('../models/User');
+const validateBody = require('../middleware/validateBody');
+const validateID = require('../middleware/validateID');
 
 router.get('/', async (req, res) => {
   try {
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', validate, async (req, res) => {
+router.get('/:id', validateID, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).send('user does not exist');
@@ -21,7 +22,7 @@ router.get('/:id', validate, async (req, res) => {
   }
 });
 
-router.post('/', validate, async (req, res) => {
+router.post('/', validateBody, async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('user already exists');
@@ -32,7 +33,7 @@ router.post('/', validate, async (req, res) => {
   }
 });
 
-router.put('/:id', validate, async (req, res) => {
+router.put('/:id', validateBody, async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!user) return res.status(404).send('user does not exist');
@@ -42,7 +43,7 @@ router.put('/:id', validate, async (req, res) => {
   }
 });
 
-router.delete('/:id', validate, async (req, res) => {
+router.delete('/:id', validateID, async (req, res) => {
   try {
     const user = await User.findByIdAndRemove(req.params.id);
     if (!user) return res.status(404).send('user does not exist');
