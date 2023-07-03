@@ -22,7 +22,7 @@ router.get('/:id', validateID, async (req, res) => {
   }
 });
 
-router.post('/', validateBody, async (req, res) => {
+router.post('/', validateBody(joiUserSchema), async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('user already exists');
@@ -33,7 +33,7 @@ router.post('/', validateBody, async (req, res) => {
   }
 });
 
-router.put('/:id', validateBody, async (req, res) => {
+router.put('/:id', validateBody(joiUserSchema), async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!user) return res.status(404).send('user does not exist');
