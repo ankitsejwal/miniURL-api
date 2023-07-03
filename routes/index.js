@@ -1,7 +1,6 @@
-const validateSchema = require('../middleware/validate');
 const router = require('express').Router();
 
-router.get('/:shorturl', validateSchema, async (req, res) => {
+router.get('/:shorturl', async (req, res) => {
   try {
     const shortUrl = req.params.shorturl;
     const url = await Url.findOne({ shortUrl: shortUrl });
