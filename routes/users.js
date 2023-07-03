@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
 const { User, joiUserSchema } = require('../models/User');
 const validateBody = require('../middleware/validateBody');
 const validateID = require('../middleware/validateID');
@@ -31,6 +32,9 @@ router.post('/', validateBody(joiUserSchema), async (req, res) => {
     req.body.password = hashedPassword;
     user = new User(req.body);
     await user.save();
+    const token = user.genAuthToken();
+    user = _.omit(user, ['password']);
+    res.status(200).header('miniUrl-auth-token', token).send();
   } catch (error) {
     res.status(400).send(error);
   }
