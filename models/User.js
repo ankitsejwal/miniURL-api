@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const joi = require('joi');
+const Joi = require('joi');
 Joi.objectid = require('joi-objectid')(Joi);
 
 const userSchema = new mongoose.Schema({
@@ -14,6 +14,7 @@ const joiUserSchema = {
   name: Joi.string().required().min(3).max(25),
   email: Joi.string().required().min(5).max(0),
   password: Joi.string().required().min(5).max(50),
+  repeat_password: Joi.ref('password'),
 };
 
 module.exports = { User, joiUserSchema };
