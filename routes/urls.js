@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const { Url } = require('../models/Url');
-const validate = require('../middleware/validate');
+const { Url, joiUrlSchema } = require('../models/Url');
+const validateBody = require('../middleware/validateBody');
+const validateID = require('../middleware/validateID');
 
 router.get('/', async (req, res) => {
   try {
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', validate, async (req, res) => {
+router.get('/:id', validateID, async (req, res) => {
   try {
     const url = await Url.findById(req.params.id);
     if (!url) return res.status(404).send('url does not exists');
@@ -22,7 +23,7 @@ router.get('/:id', validate, async (req, res) => {
 });
 
 // fix req.body
-router.post('/', validate, async (req, res) => {
+router.post('/', validateBody(joiUrlSchema), async (req, res) => {
   try {
     const fullUrl = req.body.fullUrl;
     let url = await Url.findOne({ fullUrl: fullUrl });
@@ -41,7 +42,7 @@ router.post('/', validate, async (req, res) => {
   }
 });
 
-router.put('/:id', validate, async (req, res) => {
+router.put('/:id', validateID, validateBody(joiUrlSchema), async (req, res) => {
   try {
     const url = await Url.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!url) return res.status(404).send('url does not exist');
@@ -51,7 +52,7 @@ router.put('/:id', validate, async (req, res) => {
   }
 });
 
-router.delete('/:id', validate, async (req, res) => {
+router.delete('/:id', validateID, async (req, res) => {
   try {
     const url = await Url.findByIdAndRemove(req.params.id);
     if (!url) return res.status(404).send('url does not exists');

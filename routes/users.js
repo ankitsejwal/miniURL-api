@@ -33,7 +33,7 @@ router.post('/', validateBody(joiUserSchema), async (req, res) => {
   }
 });
 
-router.put('/:id', validateBody(joiUserSchema), async (req, res) => {
+router.put('/:id', validateID, validateBody(joiUserSchema), async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!user) return res.status(404).send('user does not exist');
