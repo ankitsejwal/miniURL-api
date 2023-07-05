@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const _ = require('lodash');
-const { User } = require('../models/User');
+const { User, joiAuthSchema } = require('../models/User');
+const validate = require('../middleware/validate');
 
-router.get('/', async (req, res) => {
+router.get('/', validate(joiAuthSchema), async (req, res) => {
   const errorMessage = 'username and password combination is incorrect';
   let user = await User.findOne({ email: req.body.email });
   if (!user) return res.status(401).send(errorMessage);
