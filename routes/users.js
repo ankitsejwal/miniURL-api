@@ -34,7 +34,7 @@ router.post('/', validateBody(joiUserSchema), async (req, res) => {
     await user.save();
     const token = user.genAuthToken();
     user = _.omit(user, ['password']);
-    res.status(200).header('miniUrl-auth-token', token).send();
+    res.status(200).header('miniUrl-auth-token', token).send(user);
   } catch (error) {
     res.status(400).send(error);
   }
