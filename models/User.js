@@ -17,9 +17,14 @@ const User = mongoose.model('User', userSchema);
 
 const joiUserSchema = {
   name: Joi.string().required().min(3).max(25),
-  email: Joi.string().required().min(5).max(0),
-  password: Joi.string().required().min(5).max(50),
+  email: Joi.string().required().min(5).max(50),
+  password: Joi.string().required().min(5).max(100),
   repeat_password: Joi.ref('password'),
 };
 
-module.exports = { User, joiUserSchema };
+const joiAuthSchema = {
+  email: Joi.string().required().min(5).max(50),
+  password: Joi.string().required().min(5).max(100),
+};
+
+module.exports = { User, joiUserSchema, joiAuthSchema };
