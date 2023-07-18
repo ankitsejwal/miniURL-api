@@ -1,4 +1,3 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 
 module.exports = function () {
@@ -13,16 +12,13 @@ module.exports = function () {
 };
 
 function checkSecrets() {
-  const jwtToken = process.env.JWT_PVT_KEY;
-  const connectionString = process.env.MONGO_CONNECTION_STRING;
-
   // check if secrets are available
-  if (!connectionString) {
+  if (!process.env.MONGO_CONNECTION_STRING) {
     console.log('FATAL ERROR: MONGO_CONNECTION_STRING is not available');
     process.exit(1);
   }
 
-  if (!jwtToken) {
+  if (!process.env.JWT_PVT_KEY) {
     console.log('FATAL ERROR: JWT_TOKEN is not available');
     process.exit(1);
   }
