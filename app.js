@@ -6,9 +6,10 @@ const urls = require('./routes/urls');
 const app = express();
 dbConnect();
 
+app.use(express.json());
 app.use('/', index);
 app.use('/api/users', users);
 app.use('/api/urls', urls);
 
-const port = 3000;
+const port = 5000;
 app.listen(port, () => console.log(`Running on port ${port}`));
