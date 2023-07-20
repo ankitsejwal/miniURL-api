@@ -27,8 +27,8 @@ router.post('/', validate(joiUserSchema), async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('user already exists');
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    req.body.password = hashedPassword;
+    // const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    // req.body.password = hashedPassword;
     user = new User(req.body);
     await user.save();
     const token = user.genAuthToken();
