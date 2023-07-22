@@ -21,21 +21,22 @@ router.get('/:id', validate('id'), async (req, res) => {
   }
 });
 
-// fix req.body
 router.post('/', validate(joiUrlSchema), async (req, res) => {
   try {
-    const fullUrl = req.body.fullUrl;
-    let url = await Url.findOne({ fullUrl: fullUrl });
+    let url = await Url.findOne({ fullUrl: req.body.fullUrl });
     // if fullUrl already exists return the saved shortUrl
     if (url) return res.status(200).json(url.shortUrl);
 
-    const { shortUrl, collision } = await Url.createShortUrl(req.body.shortUrlLength);
+    const { shortUrl, collision } = await Url.createShortUrl(req.body.customLength);
+
     req.body.shortUrl = shortUrl;
     req.body.collision = collision;
+    console.log(req.body);
 
     // add short url to value object
     url = new Url(req.body);
     await url.save();
+    res.status(200).json(url);
   } catch (error) {
     res.status(400).json(error);
   }
