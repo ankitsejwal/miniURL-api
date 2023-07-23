@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
-router.get('/:shorturl', async (req, res) => {
+router.get('/:miniURL', async (req, res) => {
   try {
-    const shortUrl = req.params.shorturl;
-    const url = await Url.findOne({ shortUrl: shortUrl });
+    const miniURL = req.params.miniURL;
+    const url = await Url.findOne({ miniURL: miniURL });
     if (!url) return res.status(404).json('url does not exists');
     res.status(200).json(url);
   } catch (error) {

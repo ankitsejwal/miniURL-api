@@ -24,12 +24,12 @@ router.get('/:id', validate('id'), async (req, res) => {
 router.post('/', validate(joiUrlSchema), async (req, res) => {
   try {
     let url = await Url.findOne({ fullUrl: req.body.fullUrl });
-    // if fullUrl already exists return the saved shortUrl
-    if (url) return res.status(200).json(url.shortUrl);
+    // if fullUrl already exists return the saved miniURL
+    if (url) return res.status(200).json(url.miniURL);
 
-    const { shortUrl, collision } = await Url.createShortUrl(req.body.customLength);
+    const { miniURL, collision } = await Url.createminiURL(req.body.customLength);
 
-    req.body.shortUrl = shortUrl;
+    req.body.miniURL = miniURL;
     req.body.collision = collision;
     console.log(req.body);
 

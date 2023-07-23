@@ -5,7 +5,7 @@ const { nanoid } = require('nanoid');
 
 const urlSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  shortUrl: { type: String, unique: true, required: true },
+  miniURL: { type: String, unique: true, required: true },
   fullUrl: { type: String, unique: true, required: true },
   customUrl: { type: Boolean, default: false },
   visits: { type: Number, default: 0 },
@@ -19,20 +19,20 @@ const joiUrlSchema = {
   customLength: Joi.number().min(2).max(10).default(4),
 };
 
-urlSchema.statics.createShortUrl = async function (customLength) {
-  let shortUrl;
+urlSchema.statics.createminiURL = async function (customLength) {
+  let miniURL;
   let url;
   let unique = false;
   let collision = 0;
   do {
-    shortUrl = nanoid(customLength);
+    miniURL = nanoid(customLength);
     // look for collision
-    url = await this.findOne({ shortUrl: shortUrl });
+    url = await this.findOne({ miniURL: miniURL });
     if (url) collision++;
     else unique = true;
-    console.log(url, shortUrl, collision);
+    console.log(url, miniURL, collision);
   } while (!unique);
-  return { shortUrl, collision };
+  return { miniURL, collision };
 };
 
 const Url = mongoose.model('Url', urlSchema);
