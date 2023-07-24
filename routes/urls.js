@@ -23,15 +23,12 @@ router.get('/:id', validate('id'), async (req, res) => {
 
 router.post('/', validate(joiUrlSchema), async (req, res) => {
   try {
-    let url = await Url.findOne({ fullUrl: req.body.fullUrl });
-    // if fullUrl already exists return the saved miniURL
-    if (url) return res.status(200).json(url.miniURL);
+    let miniURL;
+    if (req.body.customUrl) miniURL = await Url.generateCustomURL(req.body.customLink);
+    else miniURL = await Url.generateMiniURL(req.body.customLength);
 
-    const { miniURL, collision } = await Url.createminiURL(req.body.customLength);
-
-    req.body.miniURL = miniURL;
-    req.body.collision = collision;
-    console.log(req.body);
+    req.body.miniURL = miniURL.url;
+    req.body.collision = miniURL.collision;
 
     // add short url to value object
     url = new Url(req.body);
