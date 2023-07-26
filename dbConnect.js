@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 module.exports = function () {
-  // check for secrets
-  checkSecrets();
+  // check environment variables
+  checkEnvironmentVariables();
 
   // connect to database
   mongoose.connect(process.env.MONGO_CONNECTION_STRING);
@@ -11,7 +11,7 @@ module.exports = function () {
   mongoose.connection.on('error', (error) => console.log(`MongoDB connection error: ${error}`));
 };
 
-function checkSecrets() {
+function checkEnvironmentVariables() {
   // check if secrets are available
   if (!process.env.MONGO_CONNECTION_STRING) {
     console.log('FATAL ERROR: MONGO_CONNECTION_STRING is not available');
