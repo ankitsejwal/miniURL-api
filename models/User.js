@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true, min: 3, max: 25 },
   email: { type: String, required: true, min: 5, max: 50 },
   password: { type: String, required: true, min: 5, max: 100 },
+  role: { type: String, enum: ['admin', 'user'], default: 'user' },
 });
 
 userSchema.methods.genAuthToken = function () {

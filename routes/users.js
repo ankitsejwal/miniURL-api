@@ -26,15 +26,16 @@ router.get('/:id', validate('id'), async (req, res) => {
 router.post('/', validate(joiUserSchema), async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
-    if (user) return res.status(400).json({ message: 'user already exists' });
+    if (user) return res.status(400).json({ message: 'Email already exists' });
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashedPassword;
+    req.body.role = 'user';
 
     user = new User(req.body);
     await user.save();
     const token = user.genAuthToken();
-    user = _.omit(user, ['password']);
-    res.status(200).header('miniURL-auth-token', token).json(user);
+    user = _.omit(user.toObject(), ['password']);
+    res.status(200).json({ message: 'user created', token, user });
   } catch (error) {
     res.status(400).json({ message: error });
   }
