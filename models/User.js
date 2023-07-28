@@ -10,7 +10,14 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.genAuthToken = function () {
-  return jwt.sign({ _id: this._id }, process.env.JWT_PVT_KEY);
+  const payload = {
+    sub: 'user',
+    _id: this.id,
+    iss: 'sejw.al',
+    aud: 'api.sejw.al',
+    iat: new Date().getSeconds(),
+  };
+  return jwt.sign(payload, process.env.JWT_PVT_KEY, { expiresIn: '24h' });
 };
 
 const User = mongoose.model('User', userSchema);
