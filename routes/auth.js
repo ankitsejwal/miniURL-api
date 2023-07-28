@@ -13,7 +13,7 @@ router.post('/', validate(joiAuthSchema), async (req, res) => {
 
   // if user is authenticated send token in header
   const token = user.genAuthToken();
-  user = _.omit(user, ['password']);
+  user = _.omit(user.toObject(), ['password']);
   res.status(200).header('miniURL-auth-token', token).json(user);
 });
 
