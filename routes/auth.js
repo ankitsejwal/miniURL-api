@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const { User, joiAuthSchema } = require('../models/User');
 const validate = require('../middleware/validate');
@@ -11,14 +10,9 @@ router.post('/', validate(joiAuthSchema), async (req, res) => {
   const match = await bcrypt.compare(req.body.password, user.password);
   if (!match) return res.status(401).json({ message: errorMessage });
 
-  // if user is authenticated send token in header
-  const token = user.genAuthToken();
-  user = _.omit(user.toObject(), ['password']);
-  res.status(200).json({
-    message: 'Authentication successful',
-    token,
-    user,
-  });
+  // if user is authenticated send token
+  const response = user.sendResponse('Authentication successful');
+  res.status(200).json(response);
 });
 
 module.exports = router;

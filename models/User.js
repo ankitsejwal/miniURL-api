@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 const Joi = require('joi');
 Joi.objectid = require('joi-objectid')(Joi);
 
@@ -12,13 +13,24 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.genAuthToken = function () {
   const payload = {
-    sub: 'user',
     _id: this.id,
-    iss: 'sejw.al',
-    aud: 'api.sejw.al',
-    iat: new Date().getSeconds(),
+    iat: new Date().getTime(),
   };
-  return jwt.sign(payload, process.env.JWT_PVT_KEY, { expiresIn: '24h' });
+  return jwt.sign(payload, process.env.JWT_PVT_KEY, {
+    subject: 'user',
+    expiresIn: '24h',
+    issuer: 'sejw.al',
+    audience: 'api.sejw.al',
+  });
+};
+
+userSchema.methods.sendResponse = function (message) {
+  const token = this.genAuthToken();
+  const decoded = jwt.decode(token);
+  const expiresAt = decoded.exp;
+  const user = _.omit(this.toObject(), ['password']);
+
+  return { message, token, expiresAt, user };
 };
 
 const User = mongoose.model('User', userSchema);

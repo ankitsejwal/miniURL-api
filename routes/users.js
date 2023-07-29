@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-const _ = require('lodash');
 const { User, joiUserSchema } = require('../models/User');
 const validate = require('../middleware/validate');
 
@@ -30,12 +29,12 @@ router.post('/', validate(joiUserSchema), async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashedPassword;
     req.body.role = 'user';
-
     user = new User(req.body);
     await user.save();
-    const token = user.genAuthToken();
-    user = _.omit(user.toObject(), ['password']);
-    res.status(200).json({ message: 'user created', token, user });
+
+    // send response to client
+    const response = user.sendResponse('User created');
+    res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ message: error });
   }
