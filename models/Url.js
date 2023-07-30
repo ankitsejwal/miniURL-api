@@ -6,10 +6,10 @@ const { nanoid } = require('nanoid');
 const urlSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   miniURL: { type: String, unique: true, required: true },
-  fullUrl: { type: String, unique: true, required: true },
+  fullUrl: { type: String, required: true },
   customUrl: { type: Boolean, default: false },
   visits: { type: Number, default: 0 },
-  collisions: { type: Number, default: 0 },
+  collision: { type: Number, default: 0 },
 });
 
 const joiUrlSchema = {
@@ -18,7 +18,7 @@ const joiUrlSchema = {
   customUrl: Joi.boolean().default(false),
   customLink: Joi.alternatives().conditional('customUrl', {
     is: true,
-    then: Joi.string().trim().uri().min(1).required(),
+    then: Joi.string().trim().min(2).required(),
     otherwise: Joi.optional(),
   }),
   customLength: Joi.number().min(2).max(6).default(3),
@@ -26,9 +26,9 @@ const joiUrlSchema = {
 
 urlSchema.statics.generateCustomURL = async function (customLink) {
   if (!customLink) return new Error('no custom link was provided');
-  const url = await this.findOne(customLink);
+  const url = await this.findOne({ miniURL: customLink });
   if (url) return new Error('custom URL already exists');
-  return { customLink, collision: 0 };
+  return { miniURL: customLink, collision: 0 };
 };
 
 urlSchema.statics.generateMiniURL = async function (customLength) {
