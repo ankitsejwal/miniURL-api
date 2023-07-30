@@ -1,2 +1,3 @@
-# urlshortener
-A Node and mongo project for shortening http urls
+# miniURL-api
+
+A Node and mongo project for super-shortening urls

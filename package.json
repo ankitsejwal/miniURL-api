@@ -1,5 +1,5 @@
 {
-  "name": "urlshortener",
+  "name": "miniURL",
   "version": "1.0.0",
   "description": "A Node and mongo project for shortening http urls",
   "main": "server.js",

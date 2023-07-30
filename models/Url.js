@@ -21,7 +21,7 @@ const joiUrlSchema = {
     then: Joi.string().trim().uri().min(1).required(),
     otherwise: Joi.optional(),
   }),
-  customLength: Joi.number().min(2).max(10).default(4),
+  customLength: Joi.number().min(2).max(6).default(3),
 };
 
 urlSchema.statics.generateCustomURL = async function (customLink) {
@@ -36,15 +36,18 @@ urlSchema.statics.generateMiniURL = async function (customLength) {
   let url;
   let unique = false;
   let collision = 0;
-
   do {
     miniURL = nanoid(customLength);
     // look for collision
-    url = await this.findOne({ miniURL: miniURL });
-    if (url) collision++;
-    else unique = true;
+    url = await this.findOne({ miniURL });
+    if (url) {
+      collision++;
+    } else {
+      unique = true;
+      break;
+    }
   } while (!unique);
-  return { url, collision };
+  return { miniURL, collision };
 };
 
 const Url = mongoose.model('Url', urlSchema);
