@@ -6,7 +6,7 @@ const { nanoid } = require('nanoid');
 const urlSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   miniURL: { type: String, unique: true, required: true },
-  fullUrl: { type: String, required: true },
+  longUrl: { type: String, required: true },
   customUrl: { type: Boolean, default: false },
   visits: { type: Number, default: 0 },
   collision: { type: Number, default: 0 },
@@ -14,7 +14,7 @@ const urlSchema = new mongoose.Schema({
 
 const joiUrlSchema = {
   user: Joi.objectid(),
-  fullUrl: Joi.string().trim().uri().min(1),
+  longUrl: Joi.string().trim().uri().min(1),
   customUrl: Joi.boolean().default(false),
   customLink: Joi.alternatives().conditional('customUrl', {
     is: true,

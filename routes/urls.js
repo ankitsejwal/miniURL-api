@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Url, joiUrlSchema } = require('../models/Url');
 const validate = require('../middleware/validate');
+const auth = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
   try {
@@ -21,12 +22,13 @@ router.get('/:id', validate('id'), async (req, res) => {
   }
 });
 
-router.post('/', validate(joiUrlSchema), async (req, res) => {
+router.post('/', auth, validate(joiUrlSchema), async (req, res) => {
   try {
     let miniURL;
     if (req.body.customUrl) miniURL = await Url.generateCustomURL(req.body.customLink);
     else miniURL = await Url.generateMiniURL(req.body.customLength);
 
+    req.body.user = req.user._id;
     req.body.miniURL = miniURL.miniURL;
     req.body.collision = miniURL.collision;
 
