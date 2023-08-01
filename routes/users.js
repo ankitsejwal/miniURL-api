@@ -23,13 +23,12 @@ router.get('/:id', auth, validate('id'), async (req, res) => {
   }
 });
 
-router.post('/', auth, validate(joiUserSchema), async (req, res) => {
+router.post('/', validate(joiUserSchema), async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).json({ message: 'Email already exists' });
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashedPassword;
-    req.body.role = 'user';
     user = new User(req.body);
     await user.save();
 

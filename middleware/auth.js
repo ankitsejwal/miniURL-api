@@ -5,7 +5,6 @@ module.exports = function (req, res, next) {
     const authorization = req.headers.authorization;
     const bits = authorization.split(' ');
     let token = null;
-    console.log('bits: ', bits);
     if (bits.length === 2) {
       if (bits[0] === 'Bearer') {
         token = bits[1];

@@ -39,7 +39,8 @@ const joiUserSchema = {
   name: Joi.string().required().min(3).max(25),
   email: Joi.string().required().min(5).max(50),
   password: Joi.string().required().min(5).max(100),
-  repeat_password: Joi.string().valid(Joi.ref('password')).required(),
+  repeatPassword: Joi.string().valid(Joi.ref('password')).required(),
+  inviteCode: Joi.string().min(3).max(10).required(),
 };
 
 const joiAuthSchema = {
