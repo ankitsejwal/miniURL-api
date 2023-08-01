@@ -2,8 +2,9 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const { User, joiUserSchema } = require('../models/User');
 const validate = require('../middleware/validate');
+const auth = require('../middleware/auth');
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const user = await User.find();
     res.status(200).json(user);
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', validate('id'), async (req, res) => {
+router.get('/:id', auth, validate('id'), async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: 'user does not exist' });
@@ -22,7 +23,7 @@ router.get('/:id', validate('id'), async (req, res) => {
   }
 });
 
-router.post('/', validate(joiUserSchema), async (req, res) => {
+router.post('/', auth, validate(joiUserSchema), async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).json({ message: 'Email already exists' });
@@ -40,7 +41,7 @@ router.post('/', validate(joiUserSchema), async (req, res) => {
   }
 });
 
-router.put('/:id', validate('id'), validate(joiUserSchema), async (req, res) => {
+router.put('/:id', auth, validate('id'), validate(joiUserSchema), async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!user) return res.status(404).json({ message: 'user does not exist' });
@@ -50,7 +51,7 @@ router.put('/:id', validate('id'), validate(joiUserSchema), async (req, res) => 
   }
 });
 
-router.delete('/:id', validate('id'), async (req, res) => {
+router.delete('/:id', auth, validate('id'), async (req, res) => {
   try {
     const user = await User.findByIdAndRemove(req.params.id);
     if (!user) return res.status(404).json({ message: 'user does not exist' });
