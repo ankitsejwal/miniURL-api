@@ -25,10 +25,9 @@ const joiUrlSchema = {
 };
 
 urlSchema.statics.generateCustomURL = async function (customLink) {
-  if (!customLink) return { errorMessage: 'no custom link was provided' };
+  if (!customLink) return { error: 'no custom link was provided' };
   const url = await this.findOne({ miniURL: customLink });
-  console.log(url);
-  if (url) return { errorMessage: 'custom URL already exists' };
+  if (url) return { error: `${customLink} <- already exists` };
   return { miniURL: customLink, collision: 0 };
 };
 

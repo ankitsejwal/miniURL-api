@@ -28,10 +28,11 @@ router.post('/', auth, validate(joiUrlSchema), async (req, res) => {
     if (req.body.customUrl) miniURL = await Url.generateCustomURL(req.body.customLink);
     else miniURL = await Url.generateMiniURL(req.body.customLength);
 
+    if (miniURL.error) return res.status(400).json({ message: miniURL.error });
     req.body.user = req.user._id;
     req.body.miniURL = miniURL.miniURL;
     req.body.collision = miniURL.collision;
-    console.log(req.body);
+
     // add short url to value object
     const url = new Url(req.body);
     await url.save();
