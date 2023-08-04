@@ -31,7 +31,7 @@ router.post('/', auth, validate(joiUrlSchema), async (req, res) => {
     req.body.user = req.user._id;
     req.body.miniURL = miniURL.miniURL;
     req.body.collision = miniURL.collision;
-
+    console.log(req.body);
     // add short url to value object
     const url = new Url(req.body);
     await url.save();
